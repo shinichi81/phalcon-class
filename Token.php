@@ -2,8 +2,6 @@
 
 namespace App;
 
-use Phalcon\Mvc\User\Component;
-
 class Token extends Component
 {
 
@@ -21,10 +19,10 @@ class Token extends Component
             throw new \Exception('Openssl extension must be loaded');
         }
         $token = \md5(openssl_random_pseudo_bytes($numberBytes));
-        
-        $this->session->set('$Token' . $tokenKey, $token);
-        $this->session->set('$TokenTime' . $tokenKey, $lifetime);
-        
+
+        $this->session->set('$Token-' . $tokenKey, $token);
+        $this->session->set('$TokenTime-' . $tokenKey, $lifetime);
+
         return $token;
     }
 
@@ -41,18 +39,19 @@ class Token extends Component
 
     public function getSessionToken($tokenKey)
     {
-        if ($this->session->has('$Token' . $tokenKey)) {
-            $token = $this->session->get('$Token' . $tokenKey, null);
-            $lifetime = (int)$this->session->get('$TokenTime' . $tokenKey, 0);
+        if ($this->session->has('$Token-' . $tokenKey)) {
+            $token = $this->session->get('$Token-' . $tokenKey, null);
+            $lifetime = (int)$this->session->get('$TokenTime-' . $tokenKey, 0);
             if (0 === $lifetime) {
                 return $token;
             }
 
-            if (time() < $lifetime) {
+            $time = time();
+            if ($time < $lifetime) {
                 return $token;
             }else {
-                $this->session->remove('$Token' . $tokenKey);
-                $this->session->remove('$TokenTime' . $tokenKey);
+                $this->session->remove('$Token-' . $tokenKey);
+                $this->session->remove('$TokenTime-' . $tokenKey);
             }
         }
         return null;
