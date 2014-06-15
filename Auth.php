@@ -85,6 +85,11 @@ class Auth extends Component
 
 }
 
+/**
+ * 
+ * https://github.com/ircmaxell/password_compat/blob/master/lib/password.php
+ */
+ 
 if (!defined('PASSWORD_DEFAULT')) {
-    require(__DIR__ . '/PasswordCompat.php');
+    require(__DIR__ . '/password.php');
 }
