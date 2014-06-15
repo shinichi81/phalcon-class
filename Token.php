@@ -45,8 +45,7 @@ class Token extends Component
                 return $token;
             }
 
-            $time = time();
-            if ($time < $lifetime) {
+            if (time() < $lifetime) {
                 return $token;
             }else {
                 $this->session->remove('$Token' . $tokenKey);
