@@ -12,7 +12,7 @@ class Token extends Component
         }
 
         if (0 !== $lifetime) {
-            $lifetime = time() + $lifetime;
+            $lifetime = \time() + $lifetime;
         }
 
         if (false === function_exists('openssl_random_pseudo_bytes')) {
@@ -46,7 +46,7 @@ class Token extends Component
                 return $token;
             }
 
-            $time = time();
+            $time = \time();
             if ($time < $lifetime) {
                 return $token;
             }else {
