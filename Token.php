@@ -20,9 +20,12 @@ class Token extends Component
         if (false === function_exists('openssl_random_pseudo_bytes')) {
             throw new \Exception('Openssl extension must be loaded');
         }
-
-        $this->session->set('$Token' . $tokenKey, \md5(openssl_random_pseudo_bytes($numberBytes)));
+        $token = \md5(openssl_random_pseudo_bytes($numberBytes));
+        
+        $this->session->set('$Token' . $tokenKey, $token);
         $this->session->set('$TokenTime' . $tokenKey, $lifetime);
+        
+        return $token;
     }
 
     public function checkToken($tokenKey, $tokenValue)
