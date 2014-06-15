@@ -1,6 +1,6 @@
 <?php
 
-namespace Board;
+namespace App;
 
 use Phalcon\Mvc\User\Component;
 
